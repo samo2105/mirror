@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vehicle: one
+  name: MyString
+  characteristics: 
+  price: 1.5
+
+two:
+  vehicle: two
+  name: MyString
+  characteristics: 
+  price: 1.5
