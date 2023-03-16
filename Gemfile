@@ -12,10 +12,14 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
-gem "devise" 
+# Sessions management and configuration
+gem "devise", "~> 4.9"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
+gem "jbuilder", "~> 2.11"
+
+# Manage JWT tokens [https://github.com/rails/jwt]
+gem "jwt", "~> 2.7"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"

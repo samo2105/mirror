@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::API
-  protect_from_forgery with: :null_session
   before_action :configure_permitted_parameters, if: :devise_controller?
   respond_to :json
-
 
   private
 
@@ -11,8 +9,8 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_user
-    if request.headers['Authorization'].present?
-      authenticate_or_request_with_http_token do |token|
+    if request.authorization.present?
+      authenticate_or_request_with_http_token do |token, options|
         begin
           jwt_payload = JWT.decode(token, Rails.application.secrets.secret_key_base).first
 
@@ -21,6 +19,8 @@ class ApplicationController < ActionController::API
           head :unauthorized
         end
       end
+    else
+      return render json: :unauthorized
     end
   end
 
