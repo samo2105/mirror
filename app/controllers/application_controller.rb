@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::API
+  include ActionController::HttpAuthentication::Basic::ControllerMethods
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+
   before_action :configure_permitted_parameters, if: :devise_controller?
   respond_to :json
 
@@ -11,16 +14,13 @@ class ApplicationController < ActionController::API
   def authenticate_user
     if request.authorization.present?
       authenticate_or_request_with_http_token do |token, options|
-        begin
-          jwt_payload = JWT.decode(token, Rails.application.secrets.secret_key_base).first
-
-          @current_user_id = jwt_payload['id']
-        rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
-          head :unauthorized
-        end
+        jwt_payload = JWT.decode(token, Rails.application.secrets.secret_key_base).first
+        @current_user_id = jwt_payload["id"]
+      rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
+        head :unauthorized
       end
     else
-      return render json: :unauthorized
+      render json: :unauthorized
     end
   end
 
@@ -35,5 +35,4 @@ class ApplicationController < ActionController::API
   def signed_in?
     @current_user_id.present?
   end
-
 end
