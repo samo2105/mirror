@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
         head :unauthorized
       end
     else
-      render json: :unauthorized
+      render json: :unauthorized, status: 401
     end
   end
 
