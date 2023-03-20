@@ -4,6 +4,25 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/users/login":
+    post:
+      summary: login
+      tags:
+      - User
+      parameters: []
+      responses:
+        '200':
+          description: session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
   "/api/user":
     get:
       summary: User show

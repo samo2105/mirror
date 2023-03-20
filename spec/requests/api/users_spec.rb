@@ -2,8 +2,7 @@ require "swagger_helper"
 
 RSpec.describe "api/user", type: :request do
   path "/api/user" do
-    let(:user) { create(:user) }
-    let(:Authorization) { "Token #{user.generate_jwt}" }
+    let(:user_instance) { User.create(email: "thebestemail2@gmail.com", password: "123456") }
 
     get "User show" do
       tags "User"
@@ -11,10 +10,12 @@ RSpec.describe "api/user", type: :request do
       produces "application/json"
       security [Token: []]
       response "200", "user" do
+        let(:Authorization) { "Token #{user_instance.generate_jwt}" }
         run_test!
       end
 
       response "401", "unauthorized" do
+        let(:Authorization) { "Token" }
         run_test!
       end
     end
@@ -34,11 +35,15 @@ RSpec.describe "api/user", type: :request do
           }
         },
         required: true
+      let(:user) { {user: {name: "elchoro"}} }
       response "200", "user" do
+        let(:Authorization) { "Token #{user_instance.generate_jwt}" }
+
         run_test!
       end
 
       response "401", "unauthorized" do
+        let(:Authorization) { "Token" }
         run_test!
       end
     end
