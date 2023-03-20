@@ -1,0 +1,77 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/users/login":
+    post:
+      summary: login
+      tags:
+      - User
+      parameters: []
+      responses:
+        '200':
+          description: session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+  "/api/user":
+    get:
+      summary: User show
+      tags:
+      - User
+      security:
+      - Token: []
+      responses:
+        '200':
+          description: user
+        '401':
+          description: unauthorized
+    patch:
+      summary: User update
+      tags:
+      - User
+      security:
+      - Token: []
+      parameters: []
+      responses:
+        '200':
+          description: user
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  optional: true
+                email:
+                  type: string
+                  optional: true
+                image:
+                  type: string
+                  optional: true
+        required: true
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
+components:
+  securitySchemes:
+    Token:
+      description: User JWT
+      type: apiKey
+      name: Authorization
+      in: header
